@@ -221,13 +221,13 @@ function SmileyStamp({ pop, size = "68%" }) {
       style: { overflow: "visible", marginTop: "30%" }
     },
     /* @__PURE__ */ React.createElement("circle", { cx: "24", cy: "24", r: "17", fill: "none", stroke: "var(--c-progress)", strokeWidth: "2.4", strokeLinecap: "round", strokeDasharray: "1 6.5" }),
-    /* @__PURE__ */ React.createElement("circle", { cx: "17", cy: "21", r: "2.1", fill: "var(--c-active)" }),
-    /* @__PURE__ */ React.createElement("circle", { cx: "31", cy: "21", r: "2.1", fill: "var(--c-active)" }),
-    /* @__PURE__ */ React.createElement("path", { d: "M15 28 Q24 37 33 28", fill: "none", stroke: "var(--c-active)", strokeWidth: "2.6", strokeLinecap: "round" })
+    /* @__PURE__ */ React.createElement("circle", { cx: "17", cy: "21", r: "2.1", fill: "var(--c-smiley)" }),
+    /* @__PURE__ */ React.createElement("circle", { cx: "31", cy: "21", r: "2.1", fill: "var(--c-smiley)" }),
+    /* @__PURE__ */ React.createElement("path", { d: "M15 28 Q24 37 33 28", fill: "none", stroke: "var(--c-smiley)", strokeWidth: "2.6", strokeLinecap: "round" })
   );
 }
 function SmileyFace({ size = "68%" }) {
-  return /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 48 48", width: size, height: size, style: { overflow: "visible" } }, /* @__PURE__ */ React.createElement("circle", { cx: "17", cy: "21", r: "2.4", fill: "var(--c-active)" }), /* @__PURE__ */ React.createElement("circle", { cx: "31", cy: "21", r: "2.4", fill: "var(--c-active)" }), /* @__PURE__ */ React.createElement("path", { d: "M15 28 Q24 37 33 28", fill: "none", stroke: "var(--c-active)", strokeWidth: "3", strokeLinecap: "round" }));
+  return /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 48 48", width: size, height: size, style: { overflow: "visible" } }, /* @__PURE__ */ React.createElement("circle", { cx: "17", cy: "21", r: "2.4", fill: "var(--c-smiley)" }), /* @__PURE__ */ React.createElement("circle", { cx: "31", cy: "21", r: "2.4", fill: "var(--c-smiley)" }), /* @__PURE__ */ React.createElement("path", { d: "M15 28 Q24 37 33 28", fill: "none", stroke: "var(--c-smiley)", strokeWidth: "3", strokeLinecap: "round" }));
 }
 function MeditationStillness() {
   const [startDate, setStartDate] = useState(toISODate(/* @__PURE__ */ new Date()));
@@ -382,6 +382,7 @@ function MeditationStillness() {
     return groups;
   }, [weeks, startDate]);
   const toggleDay = (day) => {
+    if (day !== currentDayNumber) return;
     setTicks((prev) => {
       const next = { ...prev };
       if (next[day]) {
@@ -494,9 +495,9 @@ function MeditationStillness() {
         const d = addDays(startDate, n - 1);
         const done = !!ticks[n];
         const faceSvg = done ? `<svg viewBox="0 0 48 48" width="68%" height="68%" style="overflow:visible">
-                  <circle cx="17" cy="21" r="2.4" fill="#5C7D68" />
-                  <circle cx="31" cy="21" r="2.4" fill="#5C7D68" />
-                  <path d="M15 28 Q24 37 33 28" fill="none" stroke="#5C7D68" stroke-width="3" stroke-linecap="round" />
+                  <circle cx="17" cy="21" r="2.4" fill="#2D6A45" />
+                  <circle cx="31" cy="21" r="2.4" fill="#2D6A45" />
+                  <path d="M15 28 Q24 37 33 28" fill="none" stroke="#2D6A45" stroke-width="3" stroke-linecap="round" />
                 </svg>` : "";
         return `<div class="day-cell ${done ? "done" : ""}">
               <span class="num">${d.getDate()}</span>
@@ -562,6 +563,7 @@ function MeditationStillness() {
           --c-progress: ${t.accentProgress};
           --c-progress-light: ${t.accentProgressLight};
           --c-active: ${t.accentActive};
+          --c-smiley: #2D6A45;
           --c-daymonth: ${t.accentDayMonth};
           --c-cn: ${t.cnText};
           --c-border-rgb: ${t.borderRgb};
@@ -700,6 +702,10 @@ function MeditationStillness() {
         .day-btn:hover { background: rgba(var(--c-border-rgb), 0.14); }
         .day-btn:active { transform: scale(0.94); }
         .day-btn.today-ring { box-shadow: inset 0 0 0 1.4px var(--c-progress); }
+        .day-btn.locked { opacity: 0.35; cursor: default; }
+        .day-btn.locked:hover { background: transparent; }
+        .day-btn.locked:active { transform: none; }
+        .day-btn.locked.done { opacity: 0.7; }
         .day-btn.done { color: transparent; }
         .day-num {
           position: absolute; top: 4px; left: 4px; font-size: 14px; color: var(--c-daymonth); font-weight: 700;
@@ -864,7 +870,7 @@ function MeditationStillness() {
       `), /* @__PURE__ */ React.createElement("audio", { ref: gongAudioRef, src: GONG_SOUND, preload: "auto" }), /* @__PURE__ */ React.createElement("div", { className: "card" }, /* @__PURE__ */ React.createElement("div", { className: "top-row" }, /* @__PURE__ */ React.createElement("button", { className: `gear-btn ${timerOpen ? "active" : ""}`, onClick: () => setTimerOpen((v) => !v), "aria-label": "Timer" }, /* @__PURE__ */ React.createElement(Clock, { size: 16 })), /* @__PURE__ */ React.createElement("div", { className: "top-row-actions" }, /* @__PURE__ */ React.createElement("button", { className: "gear-btn", onClick: openPrintTab, "aria-label": "Print" }, /* @__PURE__ */ React.createElement(Printer, { size: 16 })), /* @__PURE__ */ React.createElement("button", { className: "gear-btn", onClick: () => {
     setSettingsTab("backup");
     setSettingsOpen(true);
-  }, "aria-label": "Settings" }, /* @__PURE__ */ React.createElement(Settings, { size: 16 })))), /* @__PURE__ */ React.createElement("div", { className: "header" }, /* @__PURE__ */ React.createElement("div", { className: "eyebrow" }, "daily practice"), /* @__PURE__ */ React.createElement("div", { className: "title" }, "Meditation"), /* @__PURE__ */ React.createElement("div", { className: "header-cn" }, "\u5185\u9759 \xB7 n\xE8i j\xECng"), /* @__PURE__ */ React.createElement("div", { className: "header-cn-translation" }, "Inner stillness"), /* @__PURE__ */ React.createElement("div", { className: "subtitle" }, "100 Days Challenge \u2014 stamp the day once you've completed your practice.")), timerOpen && /* @__PURE__ */ React.createElement("div", { className: "timer-panel" }, /* @__PURE__ */ React.createElement("div", { className: "timer-display" }, timerMM, ":", timerSS), timerDone && /* @__PURE__ */ React.createElement("div", { className: "timer-done-msg" }, "Time's up \u{1F33F}"), /* @__PURE__ */ React.createElement("div", { className: "timer-presets" }, TIMER_PRESETS.map((m) => /* @__PURE__ */ React.createElement(
+  }, "aria-label": "Settings" }, /* @__PURE__ */ React.createElement(Settings, { size: 16 })))), /* @__PURE__ */ React.createElement("div", { className: "header" }, /* @__PURE__ */ React.createElement("div", { className: "eyebrow" }, "daily practice"), /* @__PURE__ */ React.createElement("div", { className: "title" }, "Meditation"), /* @__PURE__ */ React.createElement("div", { className: "header-cn" }, "\u5185\u9759 \xB7 n\xE8i j\xECng"), /* @__PURE__ */ React.createElement("div", { className: "header-cn-translation" }, "Inner stillness"), /* @__PURE__ */ React.createElement("div", { className: "subtitle" }, "100 Days Challenge \u2014 stamp today once you've completed your practice. Missed days stay as they are.")), timerOpen && /* @__PURE__ */ React.createElement("div", { className: "timer-panel" }, /* @__PURE__ */ React.createElement("div", { className: "timer-display" }, timerMM, ":", timerSS), timerDone && /* @__PURE__ */ React.createElement("div", { className: "timer-done-msg" }, "Time's up \u{1F33F}"), /* @__PURE__ */ React.createElement("div", { className: "timer-presets" }, TIMER_PRESETS.map((m) => /* @__PURE__ */ React.createElement(
     "button",
     {
       key: m,
@@ -899,9 +905,10 @@ function MeditationStillness() {
       (day, di) => day === null ? /* @__PURE__ */ React.createElement("div", { className: "cell", key: di }) : /* @__PURE__ */ React.createElement("div", { className: "cell", key: di }, /* @__PURE__ */ React.createElement(
         "button",
         {
-          className: `day-btn ${ticks[day] ? "done" : ""} ${day === currentDayNumber ? "today-ring" : ""}`,
+          className: `day-btn ${ticks[day] ? "done" : ""} ${day === currentDayNumber ? "today-ring" : ""} ${day !== currentDayNumber ? "locked" : ""}`,
           onClick: () => toggleDay(day),
-          "aria-label": `Day ${day} of 100, ${formatDate(addDays(startDate, day - 1))}, ${ticks[day] ? "practiced" : "not yet practiced"}`
+          disabled: day !== currentDayNumber,
+          "aria-label": `Day ${day} of 100, ${formatDate(addDays(startDate, day - 1))}, ${ticks[day] ? "practiced" : day === currentDayNumber ? "not yet practiced" : "locked"}`
         },
         /* @__PURE__ */ React.createElement("span", { className: "day-num" }, addDays(startDate, day - 1).getDate()),
         ticks[day] && /* @__PURE__ */ React.createElement(SmileyStamp, { pop: poppedDay === day })
